@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.*;
 
 /**
- * Supports Hashing password
+ * Supports Hashing the password using the SHA-256 algorithm
  */
 public class GFG2 {
     private static byte[] getSHA(String input) throws NoSuchAlgorithmException {
