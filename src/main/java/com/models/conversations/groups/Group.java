@@ -1,10 +1,11 @@
-package com.models.groups;
+package com.models.conversations.groups;
 
+import com.models.conversations.Conversation;
 import com.models.users.User;
 
 import java.util.ArrayList;
 
-public class Group {
+public class Group extends Conversation {
     private ArrayList<User> users;
     private String id;
 

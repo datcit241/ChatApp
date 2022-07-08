@@ -1,4 +1,4 @@
-package com.models.groups;
+package com.models.conversations.groups;
 
 public class PublicGroup extends Group {
 }
