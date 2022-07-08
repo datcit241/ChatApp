@@ -1,37 +1,48 @@
 package com.models.users;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.models.conversations.groups.Group;
 import com.services.GFG2;
 
+import javax.naming.InvalidNameException;
 import java.util.*;
 
 public class User {
+    public static enum Gender {
+        MALE,
+        FEMALE,
+        OTHER
+    }
+    private String username;
     private String lastName;
     private String firstName;
     private String fullName;
-    private String gender;
+    private Gender gender;
     private String hashedPassword;
-    private int id;
     private Date dateOfBirth;
 
     private ArrayList<Group> listOfGroups;
 
-    public User(String lastName, String firstName, String fullName, String password, String gender, Date dateOfBirth) {
+    public User(String username, String password, String lastName, String firstName, Gender gender, Date dateOfBirth) {
+        this.username = username;
+        this.hashedPassword = GFG2.hash(password);
         this.lastName = lastName;
         this.firstName = firstName;
-        this.fullName = fullName;
-        this.hashedPassword = GFG2.hash(password);
+        this.fullName = lastName + firstName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
-        this.id = this.hashCode();
     }
 
-    public static int hashPassword(String password) {
-        return password.hashCode();
-    }
-
-    public void setHashedPassword(String password) {
+    public void setPassword(String password) {
         this.hashedPassword = GFG2.hash(password);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return hashedPassword;
     }
 
     public String getLastName() {
@@ -46,16 +57,8 @@ public class User {
         return fullName;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
-    }
-
-    public String getHashedPassword() {
-        return hashedPassword;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Date getDateOfBirth() {

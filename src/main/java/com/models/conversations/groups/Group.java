@@ -3,31 +3,20 @@ package com.models.conversations.groups;
 import com.models.conversations.Conversation;
 import com.models.users.User;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Group extends Conversation {
-    private ArrayList<User> users;
-    private String id;
+    public static final int ADDED_SUCCESSFULLY = 0;
+    public static final int USER_ALREADY_IN_GROUP = 1;
+    private HashMap<String, String> participantsToTheirInviters = new HashMap<>();
 
-    public Group() {
-        users = new ArrayList<>();
+    public Group(ArrayList<User> participants) {
+        this.participants = participants;
     }
 
-    public Group(ArrayList<User> users) {
-        this.users = users;
-    }
-
-    public boolean addUser(User user) {
-        // Check if user is in this group or user is null
-        if (user == null) {
-            return false;
-        }
-        this.users.add(user);
-
+    public boolean addUser(User inviter, User candidate) {
+        this.participantsToTheirInviters.put(inviter.getUsername(), candidate.getUsername());
         return true;
     }
 
-    public ArrayList<User> getUsers() {
-        return this.users;
-    }
 }
