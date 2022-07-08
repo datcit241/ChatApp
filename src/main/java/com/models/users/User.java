@@ -1,6 +1,7 @@
 package com.models.users;
 
 import com.models.conversations.groups.Group;
+import com.services.GFG2;
 
 import java.util.*;
 
@@ -9,7 +10,7 @@ public class User {
     private String firstName;
     private String fullName;
     private String gender;
-    private int hashedPassword;
+    private String hashedPassword;
     private int id;
     private Date dateOfBirth;
 
@@ -19,7 +20,7 @@ public class User {
         this.lastName = lastName;
         this.firstName = firstName;
         this.fullName = fullName;
-        this.hashedPassword = hashPassword(password);
+        this.hashedPassword = GFG2.hash(password);
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.id = this.hashCode();
@@ -30,7 +31,7 @@ public class User {
     }
 
     public void setHashedPassword(String password) {
-        this.hashedPassword = hashPassword(password);
+        this.hashedPassword = GFG2.hash(password);
     }
 
     public String getLastName() {
@@ -49,7 +50,7 @@ public class User {
         return gender;
     }
 
-    public int getHashedPassword() {
+    public String getHashedPassword() {
         return hashedPassword;
     }
 
