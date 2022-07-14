@@ -1,7 +1,5 @@
 package com.repositories;
 
-import com.utilities.Filter;
-
 import java.util.*;
 import java.util.function.Predicate;
 
