@@ -1,18 +1,13 @@
 package com.models.users;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.models.conversations.groups.Group;
+import com.models.enums.Gender;
 import com.services.GFG2;
 
 import javax.naming.InvalidNameException;
 import java.util.*;
 
 public class User {
-    public static enum Gender {
-        MALE,
-        FEMALE,
-        OTHER
-    }
     private String username;
     private String lastName;
     private String firstName;
