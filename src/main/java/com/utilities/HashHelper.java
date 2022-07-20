@@ -1,4 +1,4 @@
-package com.services;
+package com.utilities;
 
 import java.math.*;
 import java.nio.charset.StandardCharsets;
@@ -7,7 +7,7 @@ import java.security.*;
 /**
  * Supports Hashing the password using the SHA-256 algorithm
  */
-public class GFG2 {
+public class HashHelper {
     private static byte[] getSHA(String input) throws NoSuchAlgorithmException {
         // Static getInstance method is called with hashing SHA
         MessageDigest md = MessageDigest.getInstance("SHA-256");

@@ -3,7 +3,7 @@ package com.repositories;
 import java.util.*;
 import java.util.function.Predicate;
 
-public abstract class Repository<Entity> implements RepositoryInterface<Entity> {
+public class Repository<Entity> implements RepositoryInterface<Entity> {
 
     private List<Entity> entityList;
 
@@ -14,7 +14,7 @@ public abstract class Repository<Entity> implements RepositoryInterface<Entity> 
         if (predicate == null) {
             return entityList;
         } else {
-            match = this.entityList.stream().filter(predicate).toList()
+            match = this.entityList.stream().filter(predicate).toList();
         }
 
         if (orderBy != null) {
@@ -36,6 +36,8 @@ public abstract class Repository<Entity> implements RepositoryInterface<Entity> 
     }
 
     @Override
-    public abstract void delete(Entity entity);
+    public void delete(Entity entity) {
+        this.entityList.remove(entity);
+    };
 
 }

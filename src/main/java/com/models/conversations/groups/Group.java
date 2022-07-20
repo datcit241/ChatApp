@@ -6,17 +6,45 @@ import com.models.users.User;
 import java.util.*;
 
 public class Group extends Conversation {
-    public static final int ADDED_SUCCESSFULLY = 0;
-    public static final int USER_ALREADY_IN_GROUP = 1;
-    private HashMap<String, String> participantsToTheirInviters = new HashMap<>();
+    protected Map<String, String> participantsToTheirInviters;
+    protected List<JoinRequest> joinRequests;
 
-    public Group(ArrayList<User> participants) {
-        this.participants = participants;
+
+    public Group() {
+        super();
+        this.joinRequests = new ArrayList<>();
+        this.participantsToTheirInviters = new HashMap<>();
     }
 
-    public boolean addUser(User inviter, User candidate) {
+    public Group(List<User> participants) {
+        super();
+        this.participants = participants;
+        this.participantsToTheirInviters = new HashMap<>();
+    }
+
+    public Group(User creator, List<User> participants) {
+        this(participants);
+
+        participants.forEach(participant -> {
+            this.participantsToTheirInviters.put(participant.getUsername(), creator.getUsername());
+        });
+    }
+
+    public void addUser(User inviter, User candidate) {
         this.participantsToTheirInviters.put(inviter.getUsername(), candidate.getUsername());
-        return true;
+        participants.add(candidate);
+    }
+
+    public void removeUser(User candidate) {
+        participants.remove(candidate);
+    }
+
+    public void addJoinRequest(JoinRequest joinRequest) {
+        this.joinRequests.add(joinRequest);
+    }
+
+    public void removeJoinRequest(JoinRequest joinRequest) {
+        this.joinRequests.remove(joinRequest);
     }
 
 }

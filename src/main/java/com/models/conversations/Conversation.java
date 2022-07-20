@@ -11,9 +11,9 @@ import java.util.*;
  * Has messages, participants, ...
  */
 public class Conversation {
-    protected ArrayList<Message> messages;
-    protected ArrayList<User> participants;
-    protected HashMap<String, String> nicknames; // user id -> nickname
+    protected List<Message> messages;
+    protected List<User> participants;
+    protected Map<String, String> nicknames; // user id -> nickname
     protected String id;
 
     public Conversation() {
