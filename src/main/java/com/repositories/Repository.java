@@ -8,7 +8,7 @@ public class Repository<Entity> implements RepositoryInterface<Entity> {
     private List<Entity> entityList;
 
     @Override
-    public List<Entity> get(Predicate<Entity> predicate, Comparator<Entity> orderBy) {
+    public Iterable<Entity> get(Predicate<Entity> predicate, Comparator<Entity> orderBy) {
         List<Entity> match;
 
         if (predicate == null) {

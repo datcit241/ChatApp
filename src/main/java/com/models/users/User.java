@@ -15,8 +15,6 @@ public class User {
     private Gender gender;
     private String hashedPassword;
     private Date dateOfBirth;
-
-    private List<Group> listOfGroups;
     private List<User> friends;
 
     public User(String username, String password, String lastName, String firstName, Gender gender, Date dateOfBirth) {
@@ -60,13 +58,6 @@ public class User {
 
     public Date getDateOfBirth() {
         return dateOfBirth;
-    }
-
-    public void joinGroup(Group group) {
-        this.listOfGroups.add(group);
-    }
-    public List<Group> getListOfGroups() {
-        return listOfGroups;
     }
 
     public List<User> getFriends() {
