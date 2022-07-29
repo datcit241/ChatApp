@@ -7,8 +7,9 @@ import java.util.List;
 public class PublicGroup extends Group {
     private String accessCode;
 
-    public PublicGroup(String id, User creator, List<User> participants) {
+    public PublicGroup(String id, User creator, List<User> participants, String accessCode) {
         super(id, creator, participants);
+        this.accessCode = accessCode;
     }
 
     public String getAccessCode() {
