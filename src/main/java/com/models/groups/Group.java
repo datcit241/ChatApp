@@ -15,7 +15,11 @@ public class Group {
         this.participants = participants;
     }
 
-    public boolean removeParticipants(User participant) {
+    public boolean hasParticipant(User participant) {
+        return this.participants.contains(participant);
+    }
+
+    public boolean removeParticipant(User participant) {
         if (!participants.contains(participant)) {
             return false;
         }
