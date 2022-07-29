@@ -2,11 +2,14 @@ package com.services;
 
 import com.data.DataStorage;
 import com.models.enums.LoginStatus;
+import com.models.enums.RelationToAMessage;
+import com.models.groups.Group;
+import com.models.groups.PrivateGroup;
 import com.models.messages.Message;
 import com.models.users.User;
 import com.utilities.HashHelper;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Should add sendMessage()
@@ -55,6 +58,44 @@ public class UserService {
                 );
 
         return messagesContainingKeyword;
+    }
+
+    public Iterable<Group> getJoinedGroups(User user) {
+        Iterable<Group> groups = dataStorage.getGroupRepository().get(group -> group.hasParticipant(user), null);
+        return groups;
+    }
+
+    public Iterable<User> getContacts(User user) {
+        Iterable<Message> allMessages = dataStorage.getMessageRepository().get(null, null);
+
+        Set<User> contacts = new HashSet<>();
+
+        allMessages.forEach(message -> {
+            RelationToAMessage relation = message.getRelation(user);
+
+            if (relation != RelationToAMessage.NotRelated) {
+                if (relation == RelationToAMessage.Sender) {
+                    Object receiver = message.getReceiver();
+
+                    if (receiver instanceof User) {
+                        contacts.add((User) receiver);
+                    }
+                } else {
+                    contacts.add(message.getSender());
+                }
+            }
+        });
+
+        return contacts;
+    }
+
+    public boolean leaveGroup(User user, Group group) {
+        if (group instanceof PrivateGroup) {
+            ((PrivateGroup) group).setAdmin(null);
+        }
+
+        group.removeParticipant(user);
+        return true;
     }
 
 }
