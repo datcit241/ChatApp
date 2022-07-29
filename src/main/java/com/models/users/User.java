@@ -1,10 +1,9 @@
 package com.models.users;
 
-import com.models.conversations.groups.Group;
 import com.models.enums.Gender;
-import com.models.files.File;
 import com.utilities.HashHelper;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class User {
@@ -14,10 +13,10 @@ public class User {
     private String fullName;
     private Gender gender;
     private String hashedPassword;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private List<User> friends;
 
-    public User(String username, String password, String lastName, String firstName, Gender gender, Date dateOfBirth) {
+    public User(String username, String password, String lastName, String firstName, Gender gender, LocalDate dateOfBirth) {
         this.username = username;
         this.hashedPassword = HashHelper.hash(password);
         this.lastName = lastName;
@@ -36,7 +35,7 @@ public class User {
         return username;
     }
 
-    public String getPassword() {
+    public String getHashedPassword() {
         return hashedPassword;
     }
 
@@ -56,7 +55,7 @@ public class User {
         return gender;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
