@@ -1,7 +1,7 @@
 package com.data;
 
-import com.models.conversations.groups.Group;
 import com.models.files.File;
+import com.models.groups.Group;
 import com.models.messages.Message;
 import com.models.users.User;
 import com.repositories.Repository;
