@@ -90,7 +90,7 @@ public class UserService {
     }
 
     public boolean leaveGroup(User user, Group group) {
-        if (group instanceof PrivateGroup) {
+        if (group instanceof PrivateGroup && ((PrivateGroup) group).isAdmin(user)) {
             ((PrivateGroup) group).setAdmin(null);
         }
 
