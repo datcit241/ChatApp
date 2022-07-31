@@ -97,7 +97,7 @@ public class FileService {
 
         boolean physicalFileRemoved = removePhysicalFile(id);
 
-        if (file == null || physicalFileRemoved) {
+        if (file == null || !physicalFileRemoved) {
             return false;
         }
 
