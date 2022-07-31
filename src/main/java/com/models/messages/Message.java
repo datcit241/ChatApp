@@ -8,11 +8,6 @@ import javax.servlet.http.Part;
 import java.time.*;
 import java.util.Comparator;
 
-/**
- * Represents a message in a conversation
- * Has date, time, person, {reactions}
- * {Type: can be texts, images or files}
- */
 public class Message {
     public static Comparator messageByRecentnessComparator;
 
@@ -26,13 +21,12 @@ public class Message {
     private String textContent;
     private File file;
 
-    public Message(User sender, User receiver, String text, Part filePart) {
+    public Message(User sender, Object receiver, String text, File file) {
         this.sender = sender;
         this.receiver = receiver;
         this.textContent = text;
         this.sentAt = LocalDateTime.now();
-
-
+        this.file = file;
     }
 
     private File createFile(Part out) {
