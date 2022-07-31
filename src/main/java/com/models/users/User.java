@@ -14,7 +14,6 @@ public class User {
     private Gender gender;
     private String hashedPassword;
     private LocalDate dateOfBirth;
-    private List<User> friends;
 
     public User(String username, String password, String lastName, String firstName, Gender gender, LocalDate dateOfBirth) {
         this.username = username;
@@ -24,7 +23,6 @@ public class User {
         this.fullName = lastName + firstName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
-        this.friends = new ArrayList<>();
     }
 
     public void setPassword(String password) {
@@ -59,7 +57,4 @@ public class User {
         return dateOfBirth;
     }
 
-    public List<User> getFriends() {
-        return friends;
-    }
 }

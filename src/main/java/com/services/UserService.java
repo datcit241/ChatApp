@@ -3,6 +3,7 @@ package com.services;
 import com.data.DataStorage;
 import com.models.enums.LoginStatus;
 import com.models.enums.RelationToAMessage;
+import com.models.friendships.Friendship;
 import com.models.groups.Group;
 import com.models.groups.PrivateGroup;
 import com.models.messages.Message;
@@ -35,6 +36,14 @@ public class UserService {
         return LoginStatus.Successfully;
     }
 
+    public Iterable<User> findFriends(User user) {
+        Iterable<Friendship> friendships = dataStorage.getFriendshipRepository().get(friendship -> friendship.isRelatedTo(user), null);
+
+        List<User> friends = new ArrayList<>();
+        friendships.forEach(friendship -> friends.add(friendship.getFriend(user)));
+        return friends;
+    }
+
     public Iterable<Message> getLatestMessages(User user, Object conversationEntity, int k, int m) {
         final int[] count = {0};
 
@@ -51,9 +60,10 @@ public class UserService {
     }
 
     public Iterable<Message> getMessagesContainingKeyword(User user, Object conversationEntity, String keyword) {
+        String lowerKeyword = keyword.toLowerCase();
         Iterable<Message> messagesContainingKeyword = dataStorage
                 .getMessageRepository()
-                .get(message -> message.isRelatedTo(user, conversationEntity) && message.getTextContent().toLowerCase().contains(keyword.toLowerCase())
+                .get(message -> message.isRelatedTo(user, conversationEntity) && message.getTextContent().toLowerCase().contains(lowerKeyword)
                         , Message.messageByRecentnessComparator
                 );
 
