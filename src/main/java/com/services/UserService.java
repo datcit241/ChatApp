@@ -49,11 +49,24 @@ public class UserService {
             return LoginStatus.UsernameNotFound;
         }
 
-        if (user.getHashedPassword().equals(HashHelper.hash(password))) {
+        if (!user.getHashedPassword().equals(HashHelper.hash(password))) {
             return LoginStatus.IncorrectPassword;
         }
 
         return LoginStatus.Successfully;
+    }
+
+    public boolean addFriend(User user, User theirFriend) {
+        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(user, theirFriend));
+
+        if (theirFriendship != null) {
+            return false;
+        }
+
+        Friendship friendship = new Friendship(user, theirFriend);
+        dataStorage.getFriendshipRepository().insert(friendship);
+
+        return true;
     }
 
     public boolean sendMessage(User sender, Object receiver, String text, FileType fileType, Part filePart) {
