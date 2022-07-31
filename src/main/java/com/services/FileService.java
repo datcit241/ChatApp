@@ -1,10 +1,11 @@
 package com.services;
 
 import com.data.DataStorage;
-import com.models.enums.FileType;
+import com.enums.FileType;
 
 import javax.servlet.http.*;
 import java.io.*;
+import java.util.UUID;
 
 public class FileService {
     private static String path;
@@ -22,7 +23,8 @@ public class FileService {
         FileService.path = path;
     }
 
-    public void createFile(FileType fileType, String id, Part filePart) throws IOException {
+    public void createFile(FileType fileType, Part filePart) throws IOException {
+        String id = UUID.randomUUID().toString();
         String name = getFileName(filePart);
         String extension = "";
 

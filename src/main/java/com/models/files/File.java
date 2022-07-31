@@ -1,6 +1,6 @@
 package com.models.files;
 
-import com.models.enums.FileType;
+import com.enums.FileType;
 
 public class File {
     private String id;
