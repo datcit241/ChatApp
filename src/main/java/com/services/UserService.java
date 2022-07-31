@@ -10,13 +10,18 @@ import com.models.messages.Message;
 import com.models.users.User;
 import com.utilities.HashHelper;
 
+import javax.xml.crypto.Data;
 import java.util.*;
 
 /**
  * Should add sendMessage()
  */
 public class UserService {
-    DataStorage dataStorage = DataStorage.getDataStorage();
+    DataStorage dataStorage;
+
+    public UserService() {
+        dataStorage = DataStorage.getDataStorage();
+    }
 
     public LoginStatus login(String username, String password) {
         if (username.equals("") || password.equals("")) {

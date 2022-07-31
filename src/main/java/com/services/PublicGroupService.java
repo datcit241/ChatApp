@@ -6,7 +6,11 @@ import com.models.groups.PublicGroup;
 import com.models.users.User;
 
 public class PublicGroupService {
-    private DataStorage dataStorage = DataStorage.getDataStorage();
+    private DataStorage dataStorage;
+
+    public PublicGroupService() {
+        dataStorage = DataStorage.getDataStorage();
+    }
 
     public boolean joinWithAccessCode(User candidate, String accessCode) {
         Group toJoinGroup = dataStorage.getGroupRepository().find(group -> {

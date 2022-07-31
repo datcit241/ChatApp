@@ -9,7 +9,11 @@ import com.models.users.User;
 import java.util.*;
 
 public class GroupService {
-    private DataStorage dataStorage = DataStorage.getDataStorage();
+    private DataStorage dataStorage;
+
+    public GroupService() {
+        dataStorage = DataStorage.getDataStorage();
+    }
 
     public boolean addMember(User member, Group group) {
         if (group.hasParticipant(member)) {
