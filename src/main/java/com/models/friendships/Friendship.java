@@ -1,22 +1,44 @@
 package com.models.friendships;
 
+import com.models.users.User;
+
 public class Friendship {
-    private String firstPersonId;
-    private String secondPersonId;
+    private User firstPerson;
+    private User secondPerson;
     private String friendship;
 
-    public Friendship(String id1, String id2){
-        int comparison = id1.compareTo(id2);
+    public Friendship(User firstPerson, User secondPerson){
+        int comparison = firstPerson.getUsername().compareTo(secondPerson.getUsername());
 
         if (comparison < 0) {
-            this.firstPersonId = id1;
-            this.secondPersonId = id2;
+            this.firstPerson = firstPerson;
+            this.secondPerson = secondPerson;
         } else {
-            this.firstPersonId = id2;
-            this.secondPersonId = id1;
+            this.firstPerson = secondPerson;
+            this.secondPerson = firstPerson;
         }
 
-        this.friendship = firstPersonId + secondPersonId;
+        this.friendship = firstPerson.getUsername() + secondPerson.getUsername();
+    }
+
+    public boolean isRelatedTo(User person) {
+        return person.equals(firstPerson) || person.equals(secondPerson);
+    }
+
+    public boolean isRelatedTo(User person1, User person2) {
+        return this.isRelatedTo(person1) && this.isRelatedTo(person2);
+    }
+
+    public User getFriend(User user) {
+        if (!this.isRelatedTo(user)) {
+            return null;
+        }
+
+        if (user.equals(this.firstPerson)) {
+            return this.secondPerson;
+        }
+
+        return this.firstPerson;
     }
 
     @Override
