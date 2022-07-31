@@ -188,5 +188,24 @@ public class UserService {
         group.removeParticipant(user);
         return true;
     }
+    public void setAlias(User assigner, User assignee, String alias) {
+        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(assigner, assignee));
+
+        if (theirFriendship != null) {
+            theirFriendship.setAlias(assignee, alias);
+        }
+    }
+
+    public String getFriendName(User user, User theirFriend) {
+        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(user, theirFriend));
+
+        String name = "";
+
+        if (theirFriendship != null) {
+            name = theirFriendship.getFriendName(user);
+        }
+
+        return name;
+    }
 
 }
