@@ -6,6 +6,7 @@ import com.models.users.User;
 
 import java.time.*;
 import java.util.Comparator;
+import java.util.List;
 
 public class Message {
     public static Comparator messageByRecentnessComparator;
@@ -18,14 +19,14 @@ public class Message {
     private User sender;
     private Object receiver;
     private String textContent;
-    private File file;
+    private List<File> files;
 
-    public Message(User sender, Object receiver, String text, File file) {
+    public Message(User sender, Object receiver, String text, List<File> files) {
         this.sender = sender;
         this.receiver = receiver;
         this.textContent = text;
         this.sentAt = LocalDateTime.now();
-        this.file = file;
+        this.files = files;
     }
 
     public RelationToAMessage getRelation(Object conversationEntity) {
@@ -71,7 +72,7 @@ public class Message {
         return textContent;
     }
 
-    public File getFile() {
-        return file;
+    public List<File> getFiles() {
+        return files;
     }
 }

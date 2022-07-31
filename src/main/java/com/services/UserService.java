@@ -69,33 +69,41 @@ public class UserService {
         return true;
     }
 
-    public boolean sendMessage(User sender, Object receiver, String text, FileType fileType, Part filePart) {
-        if (text == null && filePart == null) {
+    public boolean sendMessage(User sender, Object receiver, String text, FileType fileType, List<Part> fileParts) {
+        if (text == null && fileParts == null) {
             return false;
         }
 
-        File file = null;
+        List<File> files = new ArrayList<>();
 
-        if (filePart != null) {
-            try {
-                file = new FileService().createFile(fileType, filePart);
-            } catch (IOException e) {
-                return false;
-            }
+        if (fileParts != null) {
+            FileService fileService = new FileService();
+
+            fileParts.forEach(filePart -> {
+                try {
+                    files.add(fileService.createFile(fileType, filePart));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
-        Message message = new Message(sender, receiver, text, file);
+        Message message = new Message(sender, receiver, text, files);
         dataStorage.getMessageRepository().insert(message);
 
         return true;
     }
 
     public boolean removeMessage(Message message) {
-        if (message.getFile() != null) {
-            boolean fileRemoved = new FileService().removeFile(message.getFile().getId());
+        if (message.getFiles() != null) {
+            FileService fileService = new FileService();
 
-            if (!fileRemoved) {
-                return false;
+            for (File file : message.getFiles()) {
+                boolean fileRemoved = fileService.removeFile(file);
+
+                if (!fileRemoved) {
+                    return false;
+                }
             }
         }
 
@@ -188,6 +196,7 @@ public class UserService {
         group.removeParticipant(user);
         return true;
     }
+
     public void setAlias(User assigner, User assignee, String alias) {
         Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(assigner, assignee));
 

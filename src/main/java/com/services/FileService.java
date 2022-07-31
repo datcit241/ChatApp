@@ -92,10 +92,8 @@ public class FileService {
         return match;
     }
 
-    public boolean removeFile(String id) {
-        com.models.files.File file = getFileWithId(id);
-
-        boolean physicalFileRemoved = removePhysicalFile(id);
+    public boolean removeFile(com.models.files.File file) {
+        boolean physicalFileRemoved = removePhysicalFile(file.getName());
 
         if (file == null || !physicalFileRemoved) {
             return false;
@@ -105,8 +103,8 @@ public class FileService {
         return true;
     }
 
-    public boolean removePhysicalFile(String id) {
-        File file = new File(path + File.separator + id);
+    public boolean removePhysicalFile(String fileName) {
+        File file = new File(path + File.separator + fileName);
 
         try {
             return file.delete();
