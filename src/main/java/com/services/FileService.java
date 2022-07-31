@@ -23,7 +23,7 @@ public class FileService {
         FileService.path = path;
     }
 
-    public void createFile(FileType fileType, Part filePart) throws IOException {
+    public com.models.files.File createFile(FileType fileType, Part filePart) throws IOException {
         String id = UUID.randomUUID().toString();
         String name = getFileName(filePart);
         String extension = "";
@@ -38,6 +38,8 @@ public class FileService {
 
         com.models.files.File file = new com.models.files.File(fileType, id, extension, name);
         dataStorage.getFileRepository().insert(file);
+
+        return file;
     }
 
     public void createPhysicalFile(String id, Part filePart) throws IOException {

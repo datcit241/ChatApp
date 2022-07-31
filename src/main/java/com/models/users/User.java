@@ -56,4 +56,17 @@ public class User {
         return dateOfBirth;
     }
 
+    @Override
+    public int hashCode() {
+        return this.username.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User)) {
+            return false;
+        }
+
+        return this.hashCode() == ((User) obj).hashCode();
+    }
 }
