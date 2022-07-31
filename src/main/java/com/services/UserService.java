@@ -1,8 +1,8 @@
 package com.services;
 
 import com.data.DataStorage;
-import com.models.enums.LoginStatus;
-import com.models.enums.RelationToAMessage;
+import com.enums.LoginStatus;
+import com.enums.RelationToAMessage;
 import com.models.friendships.Friendship;
 import com.models.groups.Group;
 import com.models.groups.PrivateGroup;
@@ -10,7 +10,6 @@ import com.models.messages.Message;
 import com.models.users.User;
 import com.utilities.HashHelper;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 /**

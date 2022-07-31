@@ -1,4 +1,4 @@
-package com.models.enums;
+package com.enums;
 
 public enum FileType {
     Image,

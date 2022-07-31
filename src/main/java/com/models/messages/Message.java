@@ -1,10 +1,9 @@
 package com.models.messages;
 
-import com.models.enums.RelationToAMessage;
+import com.enums.RelationToAMessage;
 import com.models.files.File;
 import com.models.users.User;
 
-import javax.servlet.http.Part;
 import java.time.*;
 import java.util.Comparator;
 
@@ -27,10 +26,6 @@ public class Message {
         this.textContent = text;
         this.sentAt = LocalDateTime.now();
         this.file = file;
-    }
-
-    private File createFile(Part out) {
-        return new File(null, null, null, null);
     }
 
     public RelationToAMessage getRelation(Object conversationEntity) {

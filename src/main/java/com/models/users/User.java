@@ -1,10 +1,9 @@
 package com.models.users;
 
-import com.models.enums.Gender;
+import com.enums.Gender;
 import com.utilities.HashHelper;
 
 import java.time.LocalDate;
-import java.util.*;
 
 public class User {
     private String username;
