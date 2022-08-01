@@ -20,7 +20,7 @@ class UserServiceTest {
 	static User user1;
 	static User user1Friend;
 	static User user2;
-
+  
 	@Test
 	void login() {
 	}

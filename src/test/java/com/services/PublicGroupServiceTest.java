@@ -15,6 +15,5 @@ class PublicGroupServiceTest {
 
 	@Test
 	void joinWithAccessCode() {
-
 	}
 }
