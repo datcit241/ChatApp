@@ -147,7 +147,7 @@ public class UserService {
         return messagesContainingKeyword;
     }
 
-    public Iterable<Object> getIdsOfRelatedConversationEntities(User user) {
+    public Iterable<Object> getRelatedConversationEntities(User user) {
         Iterable<Group> groups = getJoinedGroups(user);
         Iterable<User> contacts = getContacts(user);
 
