@@ -7,6 +7,10 @@ public class Repository<Entity> implements RepositoryInterface<Entity> {
 
     private List<Entity> entityList;
 
+    public Repository() {
+        this.entityList = new ArrayList<>();
+    }
+
     public Repository(List<Entity> entityList) {
         this.entityList = entityList;
     }
