@@ -50,10 +50,10 @@ public class GroupService {
     public Iterable <File> getAllFiles(Group group) {
         Iterable<Message> messagesContainingFiles = dataStorage
                 .getMessageRepository()
-                .get(message -> message.getFile() != null && message.isRelatedTo(group), Message.messageByRecentnessComparator);
+                .get(message -> message.getFiles() != null && message.isRelatedTo(group), Message.messageByRecentnessComparator);
 
         List<File> files = new ArrayList<>();
-        messagesContainingFiles.forEach(message -> files.add(message.getFile()));
+        messagesContainingFiles.forEach(message -> message.getFiles().forEach(file -> files.add(file)));
 
         return files;
     }
