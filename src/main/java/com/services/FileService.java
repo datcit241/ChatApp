@@ -86,10 +86,10 @@ public class FileService {
         return match;
     }
 
-    public com.models.files.File getFileWithExtension(String extension) {
-        com.models.files.File match = dataStorage.getFileRepository().find(file -> file.getExtension().equals(extension));
-
-        return match;
+    public Iterable<com.models.files.File> getFilesWithType(FileType fileType) {
+        Iterable<com.models.files.File> files = dataStorage.getFileRepository().get(file -> file.getType() == fileType, null);
+        
+        return files;
     }
 
     public boolean removeFile(com.models.files.File file) {

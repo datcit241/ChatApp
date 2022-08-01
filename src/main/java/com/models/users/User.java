@@ -19,7 +19,7 @@ public class User {
         this.hashedPassword = HashHelper.hash(password);
         this.lastName = lastName;
         this.firstName = firstName;
-        this.fullName = lastName + firstName;
+        this.fullName = lastName + " " + firstName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
