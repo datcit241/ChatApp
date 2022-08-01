@@ -7,6 +7,10 @@ public class Repository<Entity> implements RepositoryInterface<Entity> {
 
     private List<Entity> entityList;
 
+    public Repository(List<Entity> entityList) {
+        this.entityList = entityList;
+    }
+
     @Override
     public Iterable<Entity> get(Predicate<Entity> predicate, Comparator<Entity> orderBy) {
         List<Entity> match;
