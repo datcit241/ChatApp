@@ -2,63 +2,70 @@ package com.services;
 
 import org.junit.jupiter.api.Test;
 
+import com.data.DataStorage;
+import com.enums.Gender;
+import com.models.users.User;
+import com.repositories.Repository;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.BeforeEach;
+
 class UserServiceTest {
+	private DataStorage dataStorage = DataStorage.getDataStorage();
+	private UserService userService = new UserService();
+	private Repository<User> userRepository;
+	static User user1;
+	static User user1Friend;
+	static User user2;
 
-    @Test
-    void addUser() {
-    }
+	@Test
+	void login() {
+	}
 
-    @Test
-    void login() {
-    }
+	@Test
+	void sendMessage() {
+	}
 
-    @Test
-    void addFriend() {
-    }
+	@Test
+	void removeMessage() {
+	}
 
-    @Test
-    void sendMessage() {
-    }
+	@Test
+	void getFriends() {
+	}
 
-    @Test
-    void removeMessage() {
-    }
+	@Test
+	void getLatestMessages() {
+	}
 
-    @Test
-    void getFriends() {
-    }
+	@Test
+	void getMessagesContainingKeyword() {
+	}
 
-    @Test
-    void getLatestMessages() {
-    }
+	@Test
+	void getIdsOfRelatedConversationEntities() {
+	}
 
-    @Test
-    void getMessagesContainingKeyword() {
-    }
+	@Test
+	void getJoinedGroups() {
+	}
 
-    @Test
-    void getIdsOfRelatedConversationEntities() {
-    }
+	@Test
+	void getContacts() {
+	}
 
-    @Test
-    void getJoinedGroups() {
-    }
+	@Test
+	void leaveGroup() {
+	}
 
-    @Test
-    void getContacts() {
-    }
+	@Test
+	void setAlias() {
+	}
 
-    @Test
-    void leaveGroup() {
-    }
-
-    @Test
-    void setAlias() {
-    }
-
-    @Test
-    void getFriendName() {
-    }
+	@Test
+	void getFriendName() {
+	}
 }
