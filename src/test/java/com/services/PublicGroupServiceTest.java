@@ -2,13 +2,12 @@ package com.services;
 
 import com.enums.GroupType;
 import com.models.groups.Group;
-import com.models.groups.PrivateGroup;
 import com.models.groups.PublicGroup;
+import com.services.group_services.GroupService;
+import com.services.group_services.PublicGroupService;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.data.DataStorage;
 import com.enums.Gender;
 import com.models.users.User;
 
