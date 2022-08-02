@@ -1,4 +1,4 @@
-package com.services;
+package com.services.group_services;
 
 import com.data.DataStorage;
 import com.models.groups.Group;

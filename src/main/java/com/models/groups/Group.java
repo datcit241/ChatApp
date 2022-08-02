@@ -19,13 +19,12 @@ public class Group {
         return this.participants.contains(participant);
     }
 
-    public boolean removeParticipant(User participant) {
-        if (!participants.contains(participant)) {
-            return false;
-        }
+    public void addParticipant(User participant) {
+        this.participants.add(participant);
+    }
 
+    public void removeParticipant(User participant) {
         participants.remove(participant);
-        return true;
     }
 
     public String getId() {
@@ -46,15 +45,6 @@ public class Group {
 
     public List<User> getParticipants() {
         return this.participants;
-    }
-
-    public boolean addParticipant(User participant) {
-        if (participants.contains(participant)) {
-            return false;
-        }
-
-        this.participants.add(participant);
-        return true;
     }
 
     public void setCreator(User creator) {

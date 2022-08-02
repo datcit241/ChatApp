@@ -1,4 +1,4 @@
-package com.services;
+package com.services.group_services;
 
 import com.data.DataStorage;
 import com.enums.GroupType;
@@ -45,6 +45,15 @@ public class GroupService {
 
         group.addParticipant(member);
         return true;
+    }
+
+    public boolean deleteMember(Group group, User member) {
+        if (group.hasParticipant(member)) {
+            group.removeParticipant(member);
+            return true;
+        }
+
+        return false;
     }
 
     public Iterable <File> getAllFiles(Group group) {
