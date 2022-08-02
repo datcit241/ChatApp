@@ -18,9 +18,9 @@ public class GroupService {
         dataStorage = DataStorage.getDataStorage();
     }
 
-    public boolean createGroup(GroupType groupType, User creator, List<User> participants) {
+    public Group createGroup(GroupType groupType, User creator, List<User> participants) {
         if (participants.size() < 2) {
-            return false;
+            return null;
         }
 
         participants.add(creator);
@@ -35,7 +35,7 @@ public class GroupService {
 
         dataStorage.getGroupRepository().insert(group);
 
-        return true;
+        return group;
     }
 
     public boolean addMember(User member, Group group) {
