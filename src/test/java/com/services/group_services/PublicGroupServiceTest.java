@@ -1,8 +1,9 @@
-package com.services;
+package com.services.group_services;
 
 import com.enums.GroupType;
 import com.models.groups.Group;
 import com.models.groups.PublicGroup;
+import com.services.UserService;
 import com.services.group_services.GroupService;
 import com.services.group_services.PublicGroupService;
 import org.junit.jupiter.api.BeforeAll;
