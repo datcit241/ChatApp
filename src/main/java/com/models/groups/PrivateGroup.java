@@ -11,17 +11,8 @@ public class PrivateGroup extends Group {
         this.admin = creator;
     }
 
-    public boolean setAdmin(User admin) {
-        if (isAdmin(admin)) {
-            return false;
-        }
-
+    public void setAdmin(User admin) {
         this.admin = admin;
-        return true;
-    }
-
-    public boolean isAdmin(User whoever) {
-        return admin.equals(whoever);
     }
 
     public User getAdmin() {
