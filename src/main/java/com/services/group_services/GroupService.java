@@ -1,4 +1,4 @@
-package com.services;
+package com.services.group_services;
 
 import com.data.DataStorage;
 import com.enums.GroupType;
@@ -18,9 +18,9 @@ public class GroupService {
         dataStorage = DataStorage.getDataStorage();
     }
 
-    public boolean createGroup(GroupType groupType, User creator, List<User> participants) {
+    public Group createGroup(GroupType groupType, User creator, List<User> participants) {
         if (participants.size() < 2) {
-            return false;
+            return null;
         }
 
         participants.add(creator);
@@ -35,7 +35,7 @@ public class GroupService {
 
         dataStorage.getGroupRepository().insert(group);
 
-        return true;
+        return group;
     }
 
     public boolean addMember(User member, Group group) {
@@ -45,6 +45,15 @@ public class GroupService {
 
         group.addParticipant(member);
         return true;
+    }
+
+    public boolean deleteMember(Group group, User member) {
+        if (group.hasParticipant(member)) {
+            group.removeParticipant(member);
+            return true;
+        }
+
+        return false;
     }
 
     public Iterable <File> getAllFiles(Group group) {

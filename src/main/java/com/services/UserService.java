@@ -11,6 +11,7 @@ import com.models.groups.Group;
 import com.models.groups.PrivateGroup;
 import com.models.messages.Message;
 import com.models.users.User;
+import com.services.group_services.PrivateGroupService;
 import com.utilities.HashHelper;
 
 import javax.servlet.http.Part;
@@ -25,7 +26,13 @@ public class UserService {
         dataStorage = DataStorage.getDataStorage();
     }
 
+    private static final String regularExpression = "^[a-zA-Z][a-zA-Z0-9_]{6,19}$";
+
     public boolean addUser(String username, String password, String firstName, String lastName, Gender gender, LocalDate dateOfBirth) {
+        if (validateUserInfo(username, password, firstName, lastName, gender, dateOfBirth)) {
+            return false;
+        }
+
         User userWithThisUsername = dataStorage.getUserRepository().find(user -> user.getUsername().equals(username));
 
         if (userWithThisUsername != null) {
@@ -34,6 +41,24 @@ public class UserService {
 
         User toAddUser = new User(username, password, firstName, lastName, gender, dateOfBirth);
         dataStorage.getUserRepository().insert(toAddUser);
+
+        return true;
+    }
+
+    public boolean validateUserInfo(String username, String password, String firstName, String lastName, Gender gender, LocalDate dateOfBirth) {
+        if (username.equals("") || password.equals("") || firstName.equals("") || lastName.equals("")) {
+            return false;
+        }
+
+        for (char c : (firstName + " " + lastName).toCharArray()) {
+            if (!Character.isLetterOrDigit(c) && c != ' ') {
+                return false;
+            }
+        }
+
+        if (!username.matches(regularExpression) || password.matches(regularExpression)) {
+            return false;
+        }
 
         return true;
     }
@@ -49,11 +74,25 @@ public class UserService {
             return LoginStatus.UsernameNotFound;
         }
 
-        if (!user.getHashedPassword().equals(HashHelper.hash(password))) {
+        String hashedPassword = HashHelper.hash(password);
+
+        if (!user.getHashedPassword().equals(hashedPassword)) {
             return LoginStatus.IncorrectPassword;
         }
 
         return LoginStatus.Successfully;
+    }
+
+    public User findUserWithUsername(String username) {
+        User user = dataStorage.getUserRepository().find(whoever -> whoever.getUsername().contains(username));
+
+        return user;
+    }
+
+    public Iterable<User> findUserWithName(String name) {
+        Iterable<User> candidates = dataStorage.getUserRepository().get(whoever -> whoever.getFullName().contains(name), null);
+
+        return candidates;
     }
 
     public boolean addFriend(User user, User theirFriend) {
@@ -70,6 +109,10 @@ public class UserService {
     }
 
     public boolean sendMessage(User sender, Object receiver, String text, FileType fileType, List<Part> fileParts) {
+        if (!(receiver instanceof Group || receiver instanceof User)) {
+            return false;
+        }
+
         if (text == null && fileParts == null) {
             return false;
         }
@@ -189,8 +232,8 @@ public class UserService {
     }
 
     public boolean leaveGroup(User user, Group group) {
-        if (group instanceof PrivateGroup && ((PrivateGroup) group).isAdmin(user)) {
-            ((PrivateGroup) group).setAdmin(null);
+        if (group instanceof PrivateGroup && new PrivateGroupService().isAdmin((PrivateGroup) group, user)) {
+            return false;
         }
 
         group.removeParticipant(user);
@@ -205,10 +248,10 @@ public class UserService {
         }
     }
 
-    public String getFriendName(User user, User theirFriend) {
-        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(user, theirFriend));
+    public String getAnotherPersonName(User user, User whoever) {
+        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(user, whoever));
 
-        String name = "";
+        String name = whoever.getFullName();
 
         if (theirFriendship != null) {
             name = theirFriendship.getFriendName(user);
