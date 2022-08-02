@@ -11,6 +11,7 @@ import com.models.groups.Group;
 import com.models.groups.PrivateGroup;
 import com.models.messages.Message;
 import com.models.users.User;
+import com.services.group_services.PrivateGroupService;
 import com.utilities.HashHelper;
 
 import javax.servlet.http.Part;
@@ -49,7 +50,9 @@ public class UserService {
             return LoginStatus.UsernameNotFound;
         }
 
-        if (!user.getHashedPassword().equals(HashHelper.hash(password))) {
+        String hashedPassword = HashHelper.hash(password);
+
+        if (!user.getHashedPassword().equals(hashedPassword)) {
             return LoginStatus.IncorrectPassword;
         }
 
@@ -70,6 +73,10 @@ public class UserService {
     }
 
     public boolean sendMessage(User sender, Object receiver, String text, FileType fileType, List<Part> fileParts) {
+        if (!(receiver instanceof Group || receiver instanceof User)) {
+            return false;
+        }
+
         if (text == null && fileParts == null) {
             return false;
         }
@@ -189,8 +196,8 @@ public class UserService {
     }
 
     public boolean leaveGroup(User user, Group group) {
-        if (group instanceof PrivateGroup && ((PrivateGroup) group).isAdmin(user)) {
-            ((PrivateGroup) group).setAdmin(null);
+        if (group instanceof PrivateGroup && new PrivateGroupService().isAdmin((PrivateGroup) group, user)) {
+            return false;
         }
 
         group.removeParticipant(user);
@@ -205,10 +212,10 @@ public class UserService {
         }
     }
 
-    public String getFriendName(User user, User theirFriend) {
-        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(user, theirFriend));
+    public String getAnotherPersonName(User user, User whoever) {
+        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(user, whoever));
 
-        String name = "";
+        String name = whoever.getFullName();
 
         if (theirFriendship != null) {
             name = theirFriendship.getFriendName(user);
