@@ -26,7 +26,13 @@ public class UserService {
         dataStorage = DataStorage.getDataStorage();
     }
 
+    private static final String regularExpression = "^[a-zA-Z][a-zA-Z0-9_]{6,19}$";
+
     public boolean addUser(String username, String password, String firstName, String lastName, Gender gender, LocalDate dateOfBirth) {
+        if (validateUserInfo(username, password, firstName, lastName, gender, dateOfBirth)) {
+            return false;
+        }
+
         User userWithThisUsername = dataStorage.getUserRepository().find(user -> user.getUsername().equals(username));
 
         if (userWithThisUsername != null) {
@@ -35,6 +41,24 @@ public class UserService {
 
         User toAddUser = new User(username, password, firstName, lastName, gender, dateOfBirth);
         dataStorage.getUserRepository().insert(toAddUser);
+
+        return true;
+    }
+
+    public boolean validateUserInfo(String username, String password, String firstName, String lastName, Gender gender, LocalDate dateOfBirth) {
+        if (username.equals("") || password.equals("") || firstName.equals("") || lastName.equals("")) {
+            return false;
+        }
+
+        for (char c : (firstName + " " + lastName).toCharArray()) {
+            if (!Character.isLetterOrDigit(c) && c != ' ') {
+                return false;
+            }
+        }
+
+        if (!username.matches(regularExpression) || password.matches(regularExpression)) {
+            return false;
+        }
 
         return true;
     }
@@ -57,6 +81,18 @@ public class UserService {
         }
 
         return LoginStatus.Successfully;
+    }
+
+    public User findUserWithUsername(String username) {
+        User user = dataStorage.getUserRepository().find(whoever -> whoever.getUsername().contains(username));
+
+        return user;
+    }
+
+    public Iterable<User> findUserWithName(String name) {
+        Iterable<User> candidates = dataStorage.getUserRepository().get(whoever -> whoever.getFullName().contains(name), null);
+
+        return candidates;
     }
 
     public boolean addFriend(User user, User theirFriend) {
