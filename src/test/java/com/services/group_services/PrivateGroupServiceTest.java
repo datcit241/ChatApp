@@ -1,71 +1,52 @@
 package com.services.group_services;
 
-import com.enums.Gender;
-import com.enums.GroupType;
+import com.data.DataStorage;
+import com.data.seeder.DataSeeder;
 import com.models.groups.Group;
 import com.models.groups.PrivateGroup;
-import com.models.users.User;
-import com.services.UserService;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PrivateGroupServiceTest {
-    static GroupService groupService;
+    static DataStorage dataStorage;
     static PrivateGroupService privateGroupService;
-    static UserService userService;
-    static User admin;
-    static User whoever;
     static Group group;
 
-    @BeforeEach
-    void setUp() {
-        groupService = new GroupService();
+    @BeforeAll
+    static void setUp() {
+        dataStorage = DataStorage.getDataStorage();
         privateGroupService = new PrivateGroupService();
-        userService = new UserService();
 
-        userService.addUser("datprovipcute", "unhackablepassword", "Dat", "Vo", Gender.Male, LocalDate.now());
-        userService.addUser("datsieucapvippro", "unhackablepassword", "Dat", "Vo", Gender.Male, LocalDate.now());
-        userService.addUser("datsieuprovipcute", "unhackablepassword", "Dat", "Vo", Gender.Male, LocalDate.now());
+        DataSeeder dataSeeder = DataSeeder.getDataSeeder();
+        dataSeeder.run();
 
-        admin = userService.findUserWithUsername("datprovipcute");
-
-        List<User> participants = new ArrayList<>();
-        whoever = userService.findUserWithUsername("datsieucapvippro");
-        participants.add(whoever);
-        participants.add(userService.findUserWithUsername("datsieuprovipcute"));
-
-        group = groupService.createGroup(GroupType.PrivateGroup, admin, participants);
+        group = dataStorage.getGroupRepository().find(group -> group instanceof PrivateGroup);
     }
 
     @Test
     void isAdmin() {
-        boolean actual = privateGroupService.isAdmin((PrivateGroup) group, admin);
+        boolean actual = privateGroupService.isAdmin((PrivateGroup) group, ((PrivateGroup) group).getAdmin());
         assertTrue(actual);
     }
 
     @Test
-    void isAdmin_WhoeverShouldNotBeAnAdmin() {
-        boolean actual = privateGroupService.isAdmin((PrivateGroup) group, whoever);
+    void isAdmin_ShouldNotBeAnAdmin() {
+        boolean actual = privateGroupService.isAdmin((PrivateGroup) group, dataStorage.getUserRepository().find(user -> !user.equals(((PrivateGroup) group).getAdmin())));
         assertFalse(actual);
     }
 
     @Test
     void setAdmin_ShouldFailToSet() {
-        boolean set = privateGroupService.setAdmin((PrivateGroup) group, admin);
+        boolean set = privateGroupService.setAdmin((PrivateGroup) group, ((PrivateGroup) group).getAdmin());
         assertFalse(set);
     }
 
     @Test
     void setAdmin() {
-        boolean set = privateGroupService.setAdmin((PrivateGroup) group, whoever);
+        boolean set = privateGroupService.setAdmin((PrivateGroup) group, dataStorage.getUserRepository().find(user -> !user.equals(((PrivateGroup) group).getAdmin())));
         assertTrue(set);
-        assertEquals(((PrivateGroup) group).getAdmin(), whoever);
     }
 
 }
