@@ -4,7 +4,6 @@ import com.data.DataStorage;
 import com.data.seeder.DataSeeder;
 import com.data.seeder.DataSeederInterface;
 import com.enums.Gender;
-import com.enums.GroupType;
 import com.enums.LoginStatus;
 import com.models.groups.Group;
 import com.models.messages.Message;
@@ -149,6 +148,28 @@ class UserServiceTest {
         friends = (List<User>) userService.getFriends(user);
 
         assertEquals(numberOfFriends + 1, friends.size());
+    }
+
+    @Test
+    void areFriends() {
+        User user0 = userService.findUserWithUsername("user0");
+        User user1 = userService.findUserWithUsername("user1");
+
+        userService.addFriend(user0, user1);
+
+        assertTrue(userService.areFriends(user0, user1));
+    }
+
+
+    @Test
+    void areFriends_ShouldNotBeFriends() {
+        User user = userService.findUserWithUsername("user0");
+
+        String username = UUID.randomUUID().toString();
+        userService.addUser(username, "Unhackable_password1029384756", "New", "Comer", Gender.Male, LocalDate.now());
+        User newComer = userService.findUserWithUsername(username);
+
+        assertFalse(userService.areFriends(user, newComer));
     }
 
     @Test
@@ -328,7 +349,7 @@ class UserServiceTest {
 
         userService.leaveGroup(user0, group);
 
-        assertFalse(group.hasParticipant(user0));
+        assertFalse(group.hasMember(user0));
 
         boolean actual = ((List<Group>) userService.getJoinedGroups(user0)).contains(group);
         assertFalse(actual);
@@ -350,7 +371,7 @@ class UserServiceTest {
     @Test
     void getAnotherPersonName() {
         User user0 = userService.findUserWithUsername("user0");
-        User stranger = dataStorage.getUserRepository().find(user -> !((Collection) userService.getContacts(user0)).contains(user) && !user.equals(user0));
+        User stranger = dataStorage.getUserRepository().find(user -> !userService.areFriends(user0, user) && !user.equals(user0));
 
         assertEquals(stranger.getFullName(), userService.getAnotherPersonName(user0, stranger));
     }
