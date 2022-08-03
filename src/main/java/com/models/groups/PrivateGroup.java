@@ -6,8 +6,8 @@ import java.util.List;
 
 public class PrivateGroup extends Group {
     private User admin;
-    public PrivateGroup(String id, User creator, List<User> participants) {
-        super(id, creator, participants);
+    public PrivateGroup(String id, User creator, List<User> members) {
+        super(id, creator, members);
         this.admin = creator;
     }
 

@@ -8,23 +8,23 @@ public class Group {
     private String id;
     private String name;
     private User creator;
-    private List<User> participants;
+    private List<User> members;
 
-    protected Group(String id, User creator, List<User> participants) {
+    protected Group(String id, User creator, List<User> members) {
         this.creator = creator;
-        this.participants = participants;
+        this.members = members;
     }
 
-    public boolean hasParticipant(User participant) {
-        return this.participants.contains(participant);
+    public boolean hasMember(User member) {
+        return this.members.contains(member);
     }
 
-    public void addParticipant(User participant) {
-        this.participants.add(participant);
+    public void addMember(User member) {
+        this.members.add(member);
     }
 
-    public void removeParticipant(User participant) {
-        participants.remove(participant);
+    public void removeMember(User member) {
+        members.remove(member);
     }
 
     public String getId() {
@@ -39,12 +39,12 @@ public class Group {
         return creator;
     }
 
-    public void setParticipants(List<User> participants) {
-        this.participants = participants;
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 
-    public List<User> getParticipants() {
-        return this.participants;
+    public List<User> getMembers() {
+        return this.members;
     }
 
     public void setCreator(User creator) {

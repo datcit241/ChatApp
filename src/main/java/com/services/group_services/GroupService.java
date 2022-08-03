@@ -18,19 +18,19 @@ public class GroupService {
         dataStorage = DataStorage.getDataStorage();
     }
 
-    public Group createGroup(GroupType groupType, User creator, List<User> participants) {
-        if (participants.size() < 2) {
+    public Group createGroup(GroupType groupType, User creator, List<User> members) {
+        if (members.size() < 2) {
             return null;
         }
 
-        participants.add(creator);
+        members.add(creator);
 
         String groupID = UUID.randomUUID().toString();
         String accessCode = UUID.randomUUID().toString();
 
         Group group = switch (groupType) {
-            case PrivateGroup -> new PrivateGroup(groupID, creator, participants);
-            default -> new PublicGroup(groupID, creator, participants, accessCode);
+            case PrivateGroup -> new PrivateGroup(groupID, creator, members);
+            default -> new PublicGroup(groupID, creator, members, accessCode);
         };
 
         dataStorage.getGroupRepository().insert(group);
@@ -39,15 +39,15 @@ public class GroupService {
     }
 
     public boolean addMember(User member, Group group) {
-        if (group.hasParticipant(member)) {
+        if (group.hasMember(member)) {
             return false;
         }
 
-        group.addParticipant(member);
+        group.addMember(member);
         return true;
     }
 
-    public boolean deleteMember(Group group, User member) {
+    public boolean deleteMember(User member, Group group) {
         if (group instanceof PrivateGroup) {
             boolean isAdmin = ((PrivateGroup) group).getAdmin().equals(member);
 
@@ -56,8 +56,8 @@ public class GroupService {
             }
         }
 
-        if (group.hasParticipant(member)) {
-            group.removeParticipant(member);
+        if (group.hasMember(member)) {
+            group.removeMember(member);
             return true;
         }
 

@@ -68,31 +68,31 @@ class GroupServiceTest {
     @Test
     void addMember() {
         Group group = groups.get(0);
-        int numberOfMembers = group.getParticipants().size();
+        int numberOfMembers = group.getMembers().size();
 
-        User member = dataStorage.getUserRepository().find(user -> !group.hasParticipant(user));
+        User member = dataStorage.getUserRepository().find(user -> !group.hasMember(user));
         groupService.addMember(member, group);
-        assertEquals(numberOfMembers + 1, group.getParticipants().size());
+        assertEquals(numberOfMembers + 1, group.getMembers().size());
     }
 
     @Test
     void addMember_ShouldNotAdd() {
         Group group = groups.get(0);
-        int numberOfMembers = group.getParticipants().size();
+        int numberOfMembers = group.getMembers().size();
 
-        User member = group.getParticipants().get(0);
+        User member = group.getMembers().get(0);
         groupService.addMember(member, group);
-        assertEquals(numberOfMembers, group.getParticipants().size());
+        assertEquals(numberOfMembers, group.getMembers().size());
     }
 
     @Test
     void deleteMember() {
         Group group = groups.get(0);
-        int numberOfMembers = group.getParticipants().size();
+        int numberOfMembers = group.getMembers().size();
 
-        User member = group.getParticipants().get(0);
-        groupService.deleteMember(group, member);
-        assertEquals(numberOfMembers - 1, group.getParticipants().size());
+        User member = group.getMembers().get(0);
+        groupService.deleteMember(member, group);
+        assertEquals(numberOfMembers - 1, group.getMembers().size());
     }
 
 }

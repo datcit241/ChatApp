@@ -128,7 +128,7 @@ public class UserService {
         }
 
         if (receiver instanceof Group) {
-            boolean joined = ((Group) receiver).hasParticipant(sender);
+            boolean joined = ((Group) receiver).hasMember(sender);
 
             if (!joined) {
                 return false;
@@ -222,7 +222,7 @@ public class UserService {
     }
 
     public Iterable<Group> getJoinedGroups(User user) {
-        Iterable<Group> groups = dataStorage.getGroupRepository().get(group -> group.hasParticipant(user), null);
+        Iterable<Group> groups = dataStorage.getGroupRepository().get(group -> group.hasMember(user), null);
         return groups;
     }
 
@@ -255,7 +255,7 @@ public class UserService {
             return false;
         }
 
-        group.removeParticipant(user);
+        group.removeMember(user);
         return true;
     }
 

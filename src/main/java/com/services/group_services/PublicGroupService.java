@@ -25,7 +25,7 @@ public class PublicGroupService {
             return false;
         }
 
-        toJoinGroup.addParticipant(candidate);
+        toJoinGroup.addMember(candidate);
         return true;
     }
 

@@ -36,7 +36,7 @@ class PublicGroupServiceTest {
 		Group group = dataStorage.getGroupRepository().find(each -> each instanceof  PublicGroup);
 		accessCode = ((PublicGroup) group).getAccessCode();
 
-		userWantingToJoin = dataStorage.getUserRepository().find(user -> !group.hasParticipant(user));
+		userWantingToJoin = dataStorage.getUserRepository().find(user -> !group.hasMember(user));
 	}
 
 	@Test
