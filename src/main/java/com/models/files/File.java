@@ -9,10 +9,10 @@ public class File {
     private String name;
 
 
-    public File(FileType type, String id, String extension, String name) {
+    public File(FileType type, String id, String name) {
         this.type = type;
         this.id = id;
-        this.extension = extension;
+        extension = name.substring(name.lastIndexOf(".") + 1);
         this.name = name;
     }
 

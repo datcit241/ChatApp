@@ -7,19 +7,19 @@ import java.time.LocalDate;
 
 public class User {
     private String username;
-    private String lastName;
     private String firstName;
+    private String lastName;
     private String fullName;
     private Gender gender;
     private String hashedPassword;
     private LocalDate dateOfBirth;
 
-    public User(String username, String password, String lastName, String firstName, Gender gender, LocalDate dateOfBirth) {
+    public User(String username, String password, String firstName, String lastName, Gender gender, LocalDate dateOfBirth) {
         this.username = username;
         this.hashedPassword = HashHelper.hash(password);
-        this.lastName = lastName;
         this.firstName = firstName;
-        this.fullName = lastName + " " + firstName;
+        this.lastName = lastName;
+        this.fullName = firstName + " " + lastName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
@@ -40,12 +40,12 @@ public class User {
         return lastName;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
     public String getFullName() {
         return fullName;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public Gender getGender() {

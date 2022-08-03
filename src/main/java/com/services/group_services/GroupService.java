@@ -48,6 +48,14 @@ public class GroupService {
     }
 
     public boolean deleteMember(Group group, User member) {
+        if (group instanceof PrivateGroup) {
+            boolean isAdmin = ((PrivateGroup) group).getAdmin().equals(member);
+
+            if (isAdmin) {
+                return false;
+            }
+        }
+
         if (group.hasParticipant(member)) {
             group.removeParticipant(member);
             return true;

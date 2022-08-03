@@ -19,24 +19,24 @@ public class FileService {
         dataStorage = DataStorage.getDataStorage();
     }
 
-    public static void setPath(String path) {
+    public static boolean setPath(String path) {
         FileService.path = path;
+
+        File directory = new File(path);
+        if (!directory.exists()) {
+            return directory.mkdirs();
+        }
+
+        return true;
     }
 
     public com.models.files.File createFile(FileType fileType, Part filePart) throws IOException {
         String id = UUID.randomUUID().toString();
         String name = getFileName(filePart);
-        String extension = "";
-
-        try {
-            extension = name.substring(name.lastIndexOf(".") + 1);
-        } catch (Exception e) {
-
-        }
 
         createPhysicalFile(id, filePart);
 
-        com.models.files.File file = new com.models.files.File(fileType, id, extension, name);
+        com.models.files.File file = new com.models.files.File(fileType, id, name);
         dataStorage.getFileRepository().insert(file);
 
         return file;
@@ -89,6 +89,13 @@ public class FileService {
     public Iterable<com.models.files.File> getFilesWithType(FileType fileType) {
         Iterable<com.models.files.File> files = dataStorage.getFileRepository().get(file -> file.getType() == fileType, null);
         
+        return files;
+    }
+
+    public Iterable<com.models.files.File> getFilesWithName(String fileName) {
+        String finalFileName = fileName.toLowerCase();
+        Iterable<com.models.files.File> files = dataStorage.getFileRepository().get(file -> file.getName().toLowerCase().contains(finalFileName), null);
+
         return files;
     }
 

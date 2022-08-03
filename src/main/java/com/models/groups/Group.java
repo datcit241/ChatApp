@@ -10,7 +10,7 @@ public class Group {
     private User creator;
     private List<User> participants;
 
-    public Group(String id, User creator, List<User> participants) {
+    protected Group(String id, User creator, List<User> participants) {
         this.creator = creator;
         this.participants = participants;
     }

@@ -21,12 +21,12 @@ public class Repository<Entity> implements RepositoryInterface<Entity> {
 
         if (predicate == null) {
             return entityList;
-        } else {
-            match = this.entityList.stream().filter(predicate).toList();
         }
 
         if (orderBy != null) {
-            match.sort(orderBy);
+            match = this.entityList.stream().filter(predicate).sorted(orderBy).toList();
+        } else {
+            match = this.entityList.stream().filter(predicate).toList();
         }
 
         return match;
