@@ -73,7 +73,7 @@ public class DataSeeder implements DataSeederInterface {
 
     private void seedGroups() {
         for (int i = 0; i < maxNumberOfGroups; i++) {
-            int numberOfMembers = random.nextInt(maxNumberOfUsers / 10);
+            int numberOfMembers = random.nextInt(maxNumberOfUsers / 10 + 2);
 
             Set<User> userSet = new HashSet<>();
 
@@ -116,6 +116,38 @@ public class DataSeeder implements DataSeederInterface {
         UUID randomUUID = UUID.randomUUID();
 
         return randomUUID.toString().replaceAll("_", "");
+    }
+
+    public int getMaxNumberOfUsers() {
+        return maxNumberOfUsers;
+    }
+
+    public void setMaxNumberOfUsers(int maxNumberOfUsers) {
+        this.maxNumberOfUsers = maxNumberOfUsers;
+    }
+
+    public int getMaxNumberOfFriendships() {
+        return maxNumberOfFriendships;
+    }
+
+    public void setMaxNumberOfFriendships(int maxNumberOfFriendships) {
+        this.maxNumberOfFriendships = maxNumberOfFriendships;
+    }
+
+    public int getMaxNumberOfGroups() {
+        return maxNumberOfGroups;
+    }
+
+    public void setMaxNumberOfGroups(int maxNumberOfGroups) {
+        this.maxNumberOfGroups = maxNumberOfGroups;
+    }
+
+    public int getMaxNumberOfMessages() {
+        return maxNumberOfMessages;
+    }
+
+    public void setMaxNumberOfMessages(int maxNumberOfMessages) {
+        this.maxNumberOfMessages = maxNumberOfMessages;
     }
 
 }
