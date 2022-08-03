@@ -4,7 +4,7 @@ import java.util.*;
 
 public class KeywordEvaluation {
 
-    public static boolean containsKeywords(String text, String keywords) {
+    public boolean containsKeywords(String text, String keywords) {
         text = text.toLowerCase();
         keywords = keywords.toLowerCase();
 

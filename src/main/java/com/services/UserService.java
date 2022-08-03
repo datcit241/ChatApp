@@ -23,9 +23,11 @@ import java.util.*;
 
 public class UserService {
     DataStorage dataStorage;
+    KeywordEvaluation keywordEvaluation;
 
     public UserService() {
         dataStorage = DataStorage.getDataStorage();
+        keywordEvaluation = new KeywordEvaluation();
     }
 
     private static final String regularExpression = "^[a-zA-Z][a-zA-Z0-9_]{6,19}$";
@@ -92,7 +94,7 @@ public class UserService {
     }
 
     public Iterable<User> findUserWithName(String name) {
-        Iterable<User> candidates = dataStorage.getUserRepository().get(whoever -> KeywordEvaluation.containsKeywords(whoever.getFullName(), name), null);
+        Iterable<User> candidates = dataStorage.getUserRepository().get(whoever -> keywordEvaluation.containsKeywords(whoever.getFullName(), name), null);
 
         return candidates;
     }
@@ -200,7 +202,7 @@ public class UserService {
 
         Iterable<Message> messagesContainingKeyword = dataStorage
                 .getMessageRepository()
-                .get(message -> message.isRelatedTo(user, conversationEntity) && KeywordEvaluation.containsKeywords(message.getTextContent(), finalKeyword)
+                .get(message -> message.isRelatedTo(user, conversationEntity) && keywordEvaluation.containsKeywords(message.getTextContent(), finalKeyword)
                         , Message.messageByRecentnessComparator
                 );
 

@@ -124,6 +124,7 @@ public class DataSeeder implements DataSeederInterface {
 
     public void setMaxNumberOfUsers(int maxNumberOfUsers) {
         this.maxNumberOfUsers = maxNumberOfUsers;
+        this.run();
     }
 
     public int getMaxNumberOfFriendships() {
@@ -132,6 +133,7 @@ public class DataSeeder implements DataSeederInterface {
 
     public void setMaxNumberOfFriendships(int maxNumberOfFriendships) {
         this.maxNumberOfFriendships = maxNumberOfFriendships;
+        this.seedFriendships();
     }
 
     public int getMaxNumberOfGroups() {
@@ -140,6 +142,8 @@ public class DataSeeder implements DataSeederInterface {
 
     public void setMaxNumberOfGroups(int maxNumberOfGroups) {
         this.maxNumberOfGroups = maxNumberOfGroups;
+        this.seedGroups();
+        this.seedMessages();
     }
 
     public int getMaxNumberOfMessages() {
@@ -148,6 +152,7 @@ public class DataSeeder implements DataSeederInterface {
 
     public void setMaxNumberOfMessages(int maxNumberOfMessages) {
         this.maxNumberOfMessages = maxNumberOfMessages;
+        this.seedMessages();
     }
 
 }
