@@ -2,6 +2,7 @@ package com.services.group_services;
 
 import com.data.DataStorage;
 import com.data.seeder.DataSeeder;
+import com.data.seeder.DataSeederInterface;
 import com.models.groups.Group;
 import com.models.groups.PrivateGroup;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,7 +20,7 @@ class PrivateGroupServiceTest {
         dataStorage = DataStorage.getDataStorage();
         privateGroupService = new PrivateGroupService();
 
-        DataSeeder dataSeeder = DataSeeder.getDataSeeder();
+        DataSeederInterface dataSeeder = DataSeeder.getDataSeeder();
         dataSeeder.run();
 
         group = dataStorage.getGroupRepository().find(group -> group instanceof PrivateGroup);

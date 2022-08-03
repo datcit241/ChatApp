@@ -2,6 +2,7 @@ package com.services.group_services;
 
 import com.data.DataStorage;
 import com.data.seeder.DataSeeder;
+import com.data.seeder.DataSeederInterface;
 import com.models.groups.Group;
 import com.models.groups.PublicGroup;
 import com.services.UserService;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PublicGroupServiceTest {
 	static DataStorage dataStorage;
-	static DataSeeder dataSeeder;
+	static DataSeederInterface dataSeeder;
 	static GroupService groupService;
 	static PublicGroupService publicGroupService;
 	static UserService userService;
