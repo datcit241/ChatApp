@@ -2,15 +2,11 @@ package com.models.friendships;
 
 import com.models.users.User;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Friendship {
     private User firstPerson;
     private User secondPerson;
     private String friendship;
 
-    private Map<User, String> aliases;
 
     public Friendship(User firstPerson, User secondPerson){
         int comparison = firstPerson.getUsername().compareTo(secondPerson.getUsername());
@@ -24,8 +20,6 @@ public class Friendship {
         }
 
         this.friendship = firstPerson.getUsername() + secondPerson.getUsername();
-
-        this.aliases = new HashMap<>();
     }
 
     public boolean isRelatedTo(User person) {
@@ -46,22 +40,6 @@ public class Friendship {
         }
 
         return this.firstPerson;
-    }
-
-    public void setAlias(User assignee, String alias) {
-        this.aliases.put(assignee, alias);
-    }
-
-    public String getFriendName(User user) {
-        User friend = this.getFriend(user);
-
-        String alias = this.aliases.get(friend);
-
-        if (alias == null) {
-            return friend.getFullName();
-        }
-
-        return alias;
     }
 
     @Override

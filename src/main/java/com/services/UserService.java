@@ -5,6 +5,7 @@ import com.enums.FileType;
 import com.enums.Gender;
 import com.enums.LoginStatus;
 import com.enums.RelationToAMessage;
+import com.models.alias.Alias;
 import com.models.files.File;
 import com.models.friendships.Friendship;
 import com.models.groups.Group;
@@ -13,6 +14,7 @@ import com.models.messages.Message;
 import com.models.users.User;
 import com.services.group_services.PrivateGroupService;
 import com.utilities.HashHelper;
+import com.utilities.KeywordEvaluation;
 
 import javax.servlet.http.Part;
 import java.io.IOException;
@@ -90,7 +92,7 @@ public class UserService {
     }
 
     public Iterable<User> findUserWithName(String name) {
-        Iterable<User> candidates = dataStorage.getUserRepository().get(whoever -> whoever.getFullName().contains(name), null);
+        Iterable<User> candidates = dataStorage.getUserRepository().get(whoever -> KeywordEvaluation.containsKeywords(whoever.getFullName(), name), null);
 
         return candidates;
     }
@@ -108,6 +110,12 @@ public class UserService {
         return true;
     }
 
+    public boolean areFriends(User user, User whoever) {
+        Friendship ifAny = dataStorage.getFriendshipRepository().find(anyFriendship -> anyFriendship.isRelatedTo(user, whoever));
+
+        return ifAny != null;
+    }
+
     public boolean sendMessage(User sender, Object receiver, String text, FileType fileType, List<Part> fileParts) {
         if (!(receiver instanceof Group || receiver instanceof User)) {
             return false;
@@ -115,6 +123,14 @@ public class UserService {
 
         if (text == null && fileParts == null) {
             return false;
+        }
+
+        if (receiver instanceof Group) {
+            boolean joined = ((Group) receiver).hasParticipant(sender);
+
+            if (!joined) {
+                return false;
+            }
         }
 
         List<File> files = new ArrayList<>();
@@ -126,7 +142,7 @@ public class UserService {
                 try {
                     files.add(fileService.createFile(fileType, filePart));
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             });
         }
@@ -180,10 +196,11 @@ public class UserService {
     }
 
     public Iterable<Message> getMessagesContainingKeyword(User user, Object conversationEntity, String keyword) {
-        String lowerKeyword = keyword.toLowerCase();
+        String finalKeyword = keyword.toLowerCase();
+
         Iterable<Message> messagesContainingKeyword = dataStorage
                 .getMessageRepository()
-                .get(message -> message.isRelatedTo(user, conversationEntity) && message.getTextContent().toLowerCase().contains(lowerKeyword)
+                .get(message -> message.isRelatedTo(user, conversationEntity) && KeywordEvaluation.containsKeywords(message.getTextContent(), finalKeyword)
                         , Message.messageByRecentnessComparator
                 );
 
@@ -228,7 +245,7 @@ public class UserService {
             }
         });
 
-        return contacts;
+        return new ArrayList<>(contacts);
     }
 
     public boolean leaveGroup(User user, Group group) {
@@ -241,23 +258,24 @@ public class UserService {
     }
 
     public void setAlias(User assigner, User assignee, String alias) {
-        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(assigner, assignee));
+        Alias oldAlias = dataStorage.getAliasRepository().find(anyAlias -> anyAlias.getAssigner().equals(assigner) && anyAlias.getAssignee().equals(assignee));
 
-        if (theirFriendship != null) {
-            theirFriendship.setAlias(assignee, alias);
+        if (oldAlias != null) {
+            oldAlias.setAlias(alias);
+        } else {
+            Alias newAlias = new Alias(assigner, assignee, alias);
+            dataStorage.getAliasRepository().insert(newAlias);
         }
     }
 
     public String getAnotherPersonName(User user, User whoever) {
-        Friendship theirFriendship = dataStorage.getFriendshipRepository().find(friendship -> friendship.isRelatedTo(user, whoever));
+        Alias alias = dataStorage.getAliasRepository().find(anyAlias -> anyAlias.getAssigner().equals(user) && anyAlias.getAssignee().equals(whoever));
 
-        String name = whoever.getFullName();
-
-        if (theirFriendship != null) {
-            name = theirFriendship.getFriendName(user);
+        if (alias == null) {
+            return whoever.getFullName();
+        } else {
+            return alias.getAlias();
         }
-
-        return name;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.data;
 
+import com.models.alias.Alias;
 import com.models.files.File;
 import com.models.friendships.Friendship;
 import com.models.groups.Group;
@@ -15,6 +16,7 @@ public class DataStorage {
     private Repository<Message> messageRepository;
     private Repository<File> fileRepository;
     private Repository<Friendship> friendshipRepository;
+    private Repository<Alias> aliasRepository;
 
     protected DataStorage() {
         userRepository = new Repository<>();
@@ -22,6 +24,7 @@ public class DataStorage {
         messageRepository = new Repository<>();
         fileRepository = new Repository<>();
         friendshipRepository = new Repository<>();
+        aliasRepository = new Repository<>();
     }
 
     public static DataStorage getDataStorage() {
@@ -79,4 +82,13 @@ public class DataStorage {
     public void setFriendshipRepository(Repository<Friendship> friendshipRepository) {
         this.friendshipRepository = friendshipRepository;
     }
+
+    public Repository<Alias> getAliasRepository() {
+        return aliasRepository;
+    }
+
+    public void setAliasRepository(Repository<Alias> aliasRepository) {
+        this.aliasRepository = aliasRepository;
+    }
+
 }
