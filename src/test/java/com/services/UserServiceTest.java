@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
+import java.util.Iterator;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 
@@ -174,16 +175,57 @@ class UserServiceTest {
 		assertEquals(expectedFullName, actualFullname);
 	}
 
-//	@Test
-//	void findUserWithName_ShouldSucess() {
-//		String expectedFullName = "Nguyen Trung";
-//		String actual;
-//
-//		Iterable<User> users = userService.findUserWithName(expectedFullName);
-//		Iterator it = users.iterator();
-//
-//
-//		assertEquals(expectedFullName, actual);
-//	}
+	@Test
+	void findUserWithName_ShouldSucess() {
+		Boolean expected = true;
+		Boolean actual=false;
+
+		List<User> users = (List<User>) userService.findUserWithName("Nguyen Trung");
+		if(users.size()>0){
+			actual=true;
+		}
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	void findUserWithName_ShouldFail() {
+		Boolean expected = true;
+		Boolean actual=false;
+
+		List<User> users = (List<User>) userService.findUserWithName("Dat Nguyen");
+		if(users.size()>0){
+			actual=true;
+		}
+		assertNotEquals(expected, actual);
+	}
+
+	@Test
+	void getFriends_ShouldSuccess(){
+		Boolean expected = true;
+		Boolean actual = false;
+
+		userService.addFriend(user1, user1Friend);
+		List<User> userFriend= (List<User>) userService.getFriends(user1);
+		if(userFriend.size()>0){
+			actual = true;
+		}
+		assertEquals(expected,actual);
+	}
+
+	@Test
+	void getFriends_ShouldFail(){
+		Boolean expected = false;
+		Boolean actual = false;
+		List<User> userFriend= (List<User>) userService.getFriends(user2);
+		if(userFriend.size()>0){
+			actual = true;
+		}
+		assertEquals(expected,actual);
+	}
+
+	@Test
+	void getJoinedGroups_ShoouldSuccess(){
+
+	}
 
 }
