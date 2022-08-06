@@ -66,7 +66,6 @@ public class User {
         if (!(obj instanceof User)) {
             return false;
         }
-
         return this.hashCode() == ((User) obj).hashCode();
     }
 }
