@@ -2,5 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ee/ee/p/ChatApp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ee1/ChatApp-master" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ee1/ee/p/ChatApp" vcs="Git" />
   </component>
 </project>

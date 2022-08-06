@@ -224,7 +224,7 @@ class UserServiceTest {
 	}
 
 	@Test
-	void getJoinedGroups_ShoouldSuccess(){
+	void getJoinedGroups_ShouldSuccess(){
 
 	}
 
