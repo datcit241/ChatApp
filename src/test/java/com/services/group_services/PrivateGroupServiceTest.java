@@ -28,25 +28,25 @@ class PrivateGroupServiceTest {
 
     @Test
     void isAdmin() {
-        boolean actual = privateGroupService.isAdmin((PrivateGroup) group, ((PrivateGroup) group).getAdmin());
+        boolean actual = privateGroupService.isAdmin((PrivateGroup) group, ((PrivateGroup) group).getAdmins().get(0));
         assertTrue(actual);
     }
 
     @Test
     void isAdmin_ShouldNotBeAnAdmin() {
-        boolean actual = privateGroupService.isAdmin((PrivateGroup) group, dataStorage.getUserRepository().find(user -> !user.equals(((PrivateGroup) group).getAdmin())));
+        boolean actual = privateGroupService.isAdmin((PrivateGroup) group, dataStorage.getUserRepository().find(user -> !user.equals(((PrivateGroup) group).getAdmins().get(0))));
         assertFalse(actual);
     }
 
     @Test
     void setAdmin_ShouldFailToSet() {
-        boolean set = privateGroupService.setAdmin((PrivateGroup) group, ((PrivateGroup) group).getAdmin());
+        boolean set = privateGroupService.setAdmin((PrivateGroup) group, ((PrivateGroup) group).getAdmins().get(0));
         assertFalse(set);
     }
 
     @Test
     void setAdmin() {
-        boolean set = privateGroupService.setAdmin((PrivateGroup) group, dataStorage.getUserRepository().find(user -> !user.equals(((PrivateGroup) group).getAdmin())));
+        boolean set = privateGroupService.setAdmin((PrivateGroup) group, dataStorage.getUserRepository().find(user -> !user.equals(((PrivateGroup) group).getAdmins().get(0))));
         assertTrue(set);
     }
 

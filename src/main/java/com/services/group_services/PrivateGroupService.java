@@ -1,21 +1,20 @@
 package com.services.group_services;
 
+import com.enums.GroupMemberRole;
 import com.models.groups.PrivateGroup;
 import com.models.users.User;
 
 public class PrivateGroupService {
 
-    public boolean setAdmin(PrivateGroup group, User admin) {
-        if (group.getAdmin().equals(admin)) {
+    public boolean setAdmin(PrivateGroup group, User whoever) {
+        if (group.getRole(whoever) == GroupMemberRole.Admin) {
             return false;
         }
 
-        group.setAdmin(admin);
         return true;
     }
 
     public boolean isAdmin(PrivateGroup group, User whoever) {
-        User admin = group.getAdmin();
-        return admin.equals(whoever);
+        return group.getRole(whoever) == GroupMemberRole.Admin;
     }
 }

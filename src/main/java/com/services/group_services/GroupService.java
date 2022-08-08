@@ -1,6 +1,7 @@
 package com.services.group_services;
 
 import com.data.DataStorage;
+import com.enums.GroupMemberRole;
 import com.enums.GroupType;
 import com.models.files.File;
 import com.models.groups.Group;
@@ -48,15 +49,13 @@ public class GroupService {
     }
 
     public boolean deleteMember(User member, Group group) {
-        if (group instanceof PrivateGroup) {
-            boolean isAdmin = ((PrivateGroup) group).getAdmin().equals(member);
-
-            if (isAdmin) {
-                return false;
-            }
-        }
-
         if (group.hasMember(member)) {
+            if (group instanceof PrivateGroup) {
+                if (group.getRole(member) == GroupMemberRole.Admin && group.getAdmins().size() == 1) {
+                    return false;
+                }
+            }
+
             group.removeMember(member);
             return true;
         }

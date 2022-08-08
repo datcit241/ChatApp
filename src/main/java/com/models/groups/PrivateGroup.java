@@ -1,21 +1,22 @@
 package com.models.groups;
 
+import com.enums.GroupMemberRole;
 import com.models.users.User;
 
 import java.util.List;
 
 public class PrivateGroup extends Group {
-    private User admin;
+
     public PrivateGroup(String id, User creator, List<User> members) {
         super(id, creator, members);
-        this.admin = creator;
     }
 
-    public void setAdmin(User admin) {
-        this.admin = admin;
+    public void setAdmin(User user) {
+        this.setRole(user, GroupMemberRole.Admin);
     }
 
-    public User getAdmin() {
-        return this.admin;
+    public void disposeAsAdmin(User user) {
+        this.setRole(user, GroupMemberRole.Member);
     }
+
 }

@@ -88,11 +88,11 @@ class GroupServiceTest {
     @Test
     void deleteMember() {
         Group group = groups.get(0);
-        int numberOfMembers = group.getMembers().size();
+        int numberOfMembers = group.getGroupSize();
 
-        User member = group.getMembers().get(0);
+        User member = group.getMembers().get(1);
         groupService.deleteMember(member, group);
-        assertEquals(numberOfMembers - 1, group.getMembers().size());
+        assertEquals(numberOfMembers - 1, group.getGroupSize());
     }
 
 }
