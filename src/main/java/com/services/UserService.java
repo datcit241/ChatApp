@@ -78,9 +78,7 @@ public class UserService {
             return LoginStatus.UsernameNotFound;
         }
 
-        String hashedPassword = HashHelper.hash(password);
-
-        if (!user.getHashedPassword().equals(hashedPassword)) {
+        if (!user.matchesPassword(password)) {
             return LoginStatus.IncorrectPassword;
         }
 
@@ -89,13 +87,11 @@ public class UserService {
 
     public User findUserWithUsername(String username) {
         User user = dataStorage.getUserRepository().find(whoever -> whoever.getUsername().contains(username));
-
         return user;
     }
 
     public Iterable<User> findUserWithName(String name) {
         Iterable<User> candidates = dataStorage.getUserRepository().get(whoever -> keywordEvaluation.containsKeywords(whoever.getFullName(), name), null);
-
         return candidates;
     }
 

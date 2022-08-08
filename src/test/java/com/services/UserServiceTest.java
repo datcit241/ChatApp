@@ -108,7 +108,7 @@ class UserServiceTest {
 
         User user = userService.findUserWithUsername(username);
 
-        boolean isEqual = username.equals(user.getUsername()) && HashHelper.hash(password).equals(user.getHashedPassword());
+        boolean isEqual = username.equals(user.getUsername()) && user.matchesPassword(password);
         assertTrue(isEqual);
     }
 

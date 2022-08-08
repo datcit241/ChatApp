@@ -9,7 +9,6 @@ public class User {
     private String username;
     private String firstName;
     private String lastName;
-    private String fullName;
     private Gender gender;
     private String hashedPassword;
     private LocalDate dateOfBirth;
@@ -19,7 +18,6 @@ public class User {
         this.hashedPassword = HashHelper.hash(password);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.fullName = firstName + " " + lastName;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
@@ -32,8 +30,12 @@ public class User {
         return username;
     }
 
-    public String getHashedPassword() {
+    private String getHashedPassword() {
         return hashedPassword;
+    }
+
+    public boolean matchesPassword(String password) {
+        return HashHelper.hash(password).equals(this.hashedPassword);
     }
 
     public String getLastName() {
@@ -41,7 +43,7 @@ public class User {
     }
 
     public String getFullName() {
-        return fullName;
+        return this.firstName + " " + this.lastName;
     }
 
     public String getFirstName() {
@@ -56,17 +58,4 @@ public class User {
         return dateOfBirth;
     }
 
-    @Override
-    public int hashCode() {
-        return this.username.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof User)) {
-            return false;
-        }
-
-        return this.hashCode() == ((User) obj).hashCode();
-    }
 }
